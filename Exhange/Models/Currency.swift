@@ -1,10 +1,10 @@
 //
-//  CurrencyItem.swift
+//  Currency.swift
 //
 
 import Foundation
 
-struct CurrencyItem {
+struct Currency {
   let code: String
   let flag: String
 }

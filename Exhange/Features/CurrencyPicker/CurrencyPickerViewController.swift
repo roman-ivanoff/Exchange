@@ -18,15 +18,15 @@ final class CurrencyPickerViewController: UIViewController {
   
   // MARK: - Mock Data
   
-  private let currencies: [CurrencyItem] = [
-    CurrencyItem(code: "ARS", flag: "ars"),
-    CurrencyItem(code: "EURc", flag: "eurc"),
-    CurrencyItem(code: "COP", flag: "cop"),
-    CurrencyItem(code: "MXN", flag: "mxn"),
-    CurrencyItem(code: "BRL", flag: "brl"),
+  private let currencies: [Currency] = [
+    Currency(code: "ARS", flag: "ars"),
+    Currency(code: "EURc", flag: "eurc"),
+    Currency(code: "COP", flag: "cop"),
+    Currency(code: "MXN", flag: "mxn"),
+    Currency(code: "BRL", flag: "brl"),
   ]
   
-  private var selectedCurrency = CurrencyItem(code: "MXN", flag: "mxn")
+  private var selectedCurrency = Currency(code: "MXN", flag: "mxn")
   
   // MARK: - UI Elements
   private lazy var titleLabel: UILabel = {

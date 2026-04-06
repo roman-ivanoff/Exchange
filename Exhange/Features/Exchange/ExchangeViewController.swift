@@ -16,12 +16,8 @@ final class ExchangeViewController: UIViewController {
     static let sheetCornerRadius: CGFloat = 32
   }
   
-  // MARK: - Mock Data
-  private let topCurrency = "USDc"
-  private let bottomCurrency = "MXN"
-  private let rate = 18.4097
-  private let topAmount = "9,999"
-  private let bottomAmount = "184,065.59"
+  // MARK: - Properties
+  private let viewModel: ExchangeViewModel
   
   // MARK: - UI Elements
   private lazy var titleLabel: UILabel = {
@@ -34,7 +30,6 @@ final class ExchangeViewController: UIViewController {
   
   private lazy var rateLabel: UILabel = {
     let label = UILabel()
-    label.text = "1 USDc = 18.4097 MXN"
     label.font = .messinaSans(16)
     label.textColor = UIColor(resource: .contentBrand)
     return label
@@ -58,13 +53,24 @@ final class ExchangeViewController: UIViewController {
     return button
   }()
   
+  // MARK: - Init
+  init(viewModel: ExchangeViewModel) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   // MARK: - Lifecycle
   override func viewDidLoad() {
     super.viewDidLoad()
     
     setupUI()
     setupActions()
-    configureCards()
+    bindViewModel()
+    updateUI(viewModel.state)
   }
   
   // MARK: - Setup
@@ -119,9 +125,16 @@ final class ExchangeViewController: UIViewController {
     }
   }
   
-  private func configureCards() {
-    topCard.configure(flag: "usdc", currency: topCurrency, amount: topAmount)
-    bottomCard.configure(flag: "mxn", currency: bottomCurrency, amount: bottomAmount)
+  private func bindViewModel() {
+    viewModel.onStateChanged = { [weak self] state in
+      self?.updateUI(state)
+    }
+  }
+  
+  private func updateUI(_ state: ExchangeViewState) {
+    rateLabel.text = state.rateText
+    topCard.configure(flag: state.sourceCurrency.flag, currency: state.sourceCurrency.code, amount: state.sourceAmount)
+    bottomCard.configure(flag: state.targetCurrency.flag, currency: state.targetCurrency.code, amount: state.targetAmount)
   }
   
   // MARK: - Actions
