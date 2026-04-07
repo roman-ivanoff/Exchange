@@ -13,7 +13,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     guard let windowScene = (scene as? UIWindowScene) else { return }
     
     let window = UIWindow(windowScene: windowScene)
-    window.rootViewController = ExchangeViewController(viewModel: ExchangeViewModel())
+    
+    let service = ExchangeService()
+    let viewModel = ExchangeViewModel(service: service)
+    
+    window.rootViewController = ExchangeViewController(viewModel: viewModel)
     window.makeKeyAndVisible()
     self.window = window
   }

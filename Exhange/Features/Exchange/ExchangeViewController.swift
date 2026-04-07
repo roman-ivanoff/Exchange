@@ -71,6 +71,7 @@ final class ExchangeViewController: UIViewController {
     setupActions()
     bindViewModel()
     updateUI(viewModel.state)
+    viewModel.loadData()
   }
   
   // MARK: - Setup
