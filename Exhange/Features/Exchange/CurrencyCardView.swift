@@ -14,6 +14,7 @@ final class CurrencyCardView: UIView {
   // MARK: - Properties
   private(set) var isSelectable: Bool
   var onCurrencyTap: (() -> Void)?
+  var onAmountChanged: ((String) -> Void)?
   
   // MARK: - UI Elements
   private lazy var flagImageView: UIImageView = {
@@ -47,6 +48,7 @@ final class CurrencyCardView: UIView {
     textField.textColor = UIColor(resource: .contentPrimary)
     textField.textAlignment = .right
     textField.keyboardType = .decimalPad
+    textField.placeholder = "$0.00"
     textField.addDoneButton()
     return textField
   }()
@@ -75,7 +77,7 @@ final class CurrencyCardView: UIView {
   func configure(flag: String, currency: String, amount: String) {
     flagImageView.image = UIImage(named: flag)
     currencyLabel.text = currency
-    amountTextField.text = amount
+    setAmount(amount)
   }
   
   func setSelectable(_ selectable: Bool) {
@@ -83,10 +85,20 @@ final class CurrencyCardView: UIView {
     chevronImageView.isHidden = !selectable
   }
   
+  func setAmount(_ text: String) {
+    if text.isEmpty {
+      amountTextField.text = ""
+    } else {
+      let cleaned = text.replacingOccurrences(of: "$", with: "")
+      amountTextField.text = "$\(cleaned)"
+    }
+  }
+  
   // MARK: - Setup
   private func setupUI() {
     let tap = UITapGestureRecognizer(target: self, action: #selector(currencyTapped))
     currencyStack.addGestureRecognizer(tap)
+    amountTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     
     backgroundColor = UIColor(resource: .bgSecondary)
     layer.cornerRadius = Layout.cornerRadius
@@ -111,5 +123,16 @@ final class CurrencyCardView: UIView {
   @objc private func currencyTapped() {
     guard isSelectable else { return }
     onCurrencyTap?()
+  }
+  
+  @objc private func textFieldDidChange() {
+    var text = amountTextField.text ?? ""
+    text = text.replacingOccurrences(of: "$", with: "")
+    if text.isEmpty {
+      amountTextField.text = ""
+    } else {
+      amountTextField.text = "$\(text)"
+    }
+    onAmountChanged?(text)
   }
 }

@@ -11,4 +11,5 @@ struct ExchangeViewState {
   let targetAmount: String
   let rateText: String
   let isSwapped: Bool
+  let activeField: ActiveField?
 }

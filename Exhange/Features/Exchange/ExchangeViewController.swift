@@ -124,6 +124,14 @@ final class ExchangeViewController: UIViewController {
     bottomCard.onCurrencyTap = { [weak self] in
       self?.showCurrencyPicker()
     }
+    
+    topCard.onAmountChanged = { [weak self] text in
+      self?.viewModel.updateSourceAmount(text)
+    }
+    
+    bottomCard.onAmountChanged = { [weak self] text in
+      self?.viewModel.updateTargetAmount(text)
+    }
   }
   
   private func bindViewModel() {
@@ -134,8 +142,16 @@ final class ExchangeViewController: UIViewController {
   
   private func updateUI(_ state: ExchangeViewState) {
     rateLabel.text = state.rateText
-    topCard.configure(flag: state.sourceCurrency.flag, currency: state.sourceCurrency.code, amount: state.sourceAmount)
-    bottomCard.configure(flag: state.targetCurrency.flag, currency: state.targetCurrency.code, amount: state.targetAmount)
+    
+    switch viewModel.activeField {
+    case .source:
+      bottomCard.configure(flag: state.targetCurrency.flag, currency: state.targetCurrency.code, amount: state.targetAmount)
+    case .target:
+      topCard.configure(flag: state.sourceCurrency.flag, currency: state.sourceCurrency.code, amount: state.sourceAmount)
+    case nil:
+      topCard.configure(flag: state.sourceCurrency.flag, currency: state.sourceCurrency.code, amount: state.sourceAmount)
+      bottomCard.configure(flag: state.targetCurrency.flag, currency: state.targetCurrency.code, amount: state.targetAmount)
+    }
   }
   
   // MARK: - Actions

@@ -4,6 +4,11 @@
 
 import Foundation
 
+enum ActiveField {
+  case source
+  case target
+}
+
 final class ExchangeViewModel {
   
   // MARK: Public Properties
@@ -11,6 +16,7 @@ final class ExchangeViewModel {
   var onError: ((String) -> Void)?
   
   private(set) var state: ExchangeViewState
+  private(set) var activeField: ActiveField? = nil
   
   // MARK: Private Properties
   private let service: ExchangeServiceProtocol
@@ -20,6 +26,7 @@ final class ExchangeViewModel {
   private var rates: [TickerResponse] = []
   private var isSwapped: Bool
   private var availableCurrencies: [String] = []
+  private var targetAmount: Double = 0
   
   // MARK: - Init
   init(service: ExchangeServiceProtocol = ExchangeService()) {
@@ -35,7 +42,8 @@ final class ExchangeViewModel {
       sourceAmount: "",
       targetAmount: "",
       rateText: "",
-      isSwapped: false
+      isSwapped: false,
+      activeField: nil
     )
   }
   
@@ -46,6 +54,7 @@ final class ExchangeViewModel {
         availableCurrencies = try await service.availableCurrencies()
         rates = try await service.fetchRates(for: availableCurrencies)
         await MainActor.run {
+          activeField = nil
           updateState()
         }
       } catch {
@@ -56,8 +65,33 @@ final class ExchangeViewModel {
     }
   }
   
-  func updateSourceAmount(_ amount: Double) {
-    sourceAmount = amount
+  func updateSourceAmount(_ text: String) {
+    activeField = .source
+    sourceAmount = parseAmount(text)
+    let rate = currentRate()
+    
+    if isSwapped {
+      targetAmount = rate > 0 ? sourceAmount / rate : 0
+    } else {
+      targetAmount = sourceAmount * rate
+    }
+    
+    updateState()
+  }
+  
+  // The user has entered an amount in the bottom field
+  func updateTargetAmount(_ text: String) {
+    activeField = .target
+    targetAmount = parseAmount(text)
+    
+    let rate = currentRate()
+    
+    if isSwapped {
+      sourceAmount = targetAmount * rate
+    } else {
+      sourceAmount = rate > 0 ? targetAmount / rate : 0
+    }
+    
     updateState()
   }
   
@@ -66,6 +100,7 @@ final class ExchangeViewModel {
     let temp = sourceCurrency
     sourceCurrency = targetCurrency
     targetCurrency = temp
+    activeField = nil
     updateState()
   }
   
@@ -86,13 +121,6 @@ final class ExchangeViewModel {
   
   private func updateState() {
     let rate = currentRate()
-    let targetAmount: Double
-    
-    if isSwapped {
-      targetAmount = rate > 0 ? sourceAmount / rate : 0
-    } else {
-      targetAmount = sourceAmount * rate
-    }
     
     let rateText: String
     
@@ -105,13 +133,24 @@ final class ExchangeViewModel {
     state = ExchangeViewState(
       sourceCurrency: sourceCurrency,
       targetCurrency: targetCurrency,
-      sourceAmount: CurrencyFormatter.format(sourceAmount),
-      targetAmount: CurrencyFormatter.format(targetAmount),
+      sourceAmount: sourceAmount > 0 ? CurrencyFormatter.format(sourceAmount) : "",
+      targetAmount: targetAmount > 0 ? CurrencyFormatter.format(targetAmount) : "",
       rateText: rateText,
-      isSwapped: isSwapped
+      isSwapped: isSwapped,
+      activeField: activeField
     )
     
     onStateChanged?(state)
+  }
+  
+  // Parsing a string into a number (removing $ and commas)
+  private func parseAmount(_ text: String) -> Double {
+    let cleaned = text
+      .replacingOccurrences(of: "$", with: "")
+      .replacingOccurrences(of: ",", with: ".")
+      .trimmingCharacters(in: .whitespaces)
+    
+    return Double(cleaned) ?? 0
   }
   
 }
