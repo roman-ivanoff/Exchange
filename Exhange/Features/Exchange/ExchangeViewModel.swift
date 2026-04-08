@@ -100,6 +100,11 @@ final class ExchangeViewModel {
     let temp = sourceCurrency
     sourceCurrency = targetCurrency
     targetCurrency = temp
+    
+    let tempAmount = sourceAmount
+    sourceAmount = targetAmount
+    targetAmount = tempAmount
+    
     activeField = nil
     updateState()
   }
@@ -110,12 +115,29 @@ final class ExchangeViewModel {
     } else {
       targetCurrency = currency
     }
+    
+    let rate = currentRate()
+    
+    if isSwapped {
+      targetAmount = rate > 0 ? sourceAmount / rate : 0
+    } else {
+      targetAmount = sourceAmount * rate
+    }
+    
+    activeField = nil
     updateState()
   }
   
   // MARK: - Private Methods
   private func currentRate() -> Double {
-    let code = isSwapped ? sourceCurrency.code : targetCurrency.code
+    let code: String
+    
+    if sourceCurrency.code == "USDc" {
+      code = targetCurrency.code
+    } else {
+      code = sourceCurrency.code
+    }
+    
     return rates.first { $0.currencyCode == code.uppercased() }?.askDouble ?? 0
   }
   
@@ -125,7 +147,12 @@ final class ExchangeViewModel {
     let rateText: String
     
     if rate > 0 {
-      rateText = "1 \(sourceCurrency.code) = \(rate) \(targetCurrency.code)"
+      if isSwapped {
+        let inverseRate = 1.0 / rate
+        rateText = "1 \(sourceCurrency.code) = \(CurrencyFormatter.formatRate(inverseRate)) \(targetCurrency.code)"
+      } else {
+        rateText = "1 \(sourceCurrency.code) = \(rate) \(targetCurrency.code)"
+      }
     } else {
       rateText = ""
     }

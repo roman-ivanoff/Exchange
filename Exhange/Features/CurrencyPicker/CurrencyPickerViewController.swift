@@ -16,17 +16,27 @@ final class CurrencyPickerViewController: UIViewController {
     static let rowHeight: CGFloat = 62
   }
   
+  var onCurrencySelected: ((Currency) -> Void)?
+  
   // MARK: - Mock Data
   
   private let currencies: [Currency] = [
     Currency(code: "ARS", flag: "ars"),
-    Currency(code: "EURc", flag: "eurc"),
     Currency(code: "COP", flag: "cop"),
     Currency(code: "MXN", flag: "mxn"),
     Currency(code: "BRL", flag: "brl"),
   ]
   
-  private var selectedCurrency = Currency(code: "MXN", flag: "mxn")
+  private var selectedCurrency: Currency
+  
+  init(selectedCurrency: Currency) {
+    self.selectedCurrency = selectedCurrency
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   // MARK: - UI Elements
   private lazy var titleLabel: UILabel = {
@@ -121,5 +131,8 @@ extension CurrencyPickerViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     selectedCurrency = currencies[indexPath.row]
     tableView.reloadData()
+    
+    onCurrencySelected?(currencies[indexPath.row])
+    dismiss(animated: true)
   }
 }

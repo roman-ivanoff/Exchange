@@ -121,6 +121,10 @@ final class ExchangeViewController: UIViewController {
   }
   
   private func setupActions() {
+    topCard.onCurrencyTap = { [weak self] in
+      self?.showCurrencyPicker()
+    }
+    
     bottomCard.onCurrencyTap = { [weak self] in
       self?.showCurrencyPicker()
     }
@@ -132,6 +136,8 @@ final class ExchangeViewController: UIViewController {
     bottomCard.onAmountChanged = { [weak self] text in
       self?.viewModel.updateTargetAmount(text)
     }
+    
+    swapButton.addTarget(self, action: #selector(swapTapped), for: .touchUpInside)
   }
   
   private func bindViewModel() {
@@ -142,6 +148,9 @@ final class ExchangeViewController: UIViewController {
   
   private func updateUI(_ state: ExchangeViewState) {
     rateLabel.text = state.rateText
+    
+    topCard.setSelectable(state.isSwapped)
+    bottomCard.setSelectable(!state.isSwapped)
     
     switch viewModel.activeField {
     case .source:
@@ -156,7 +165,16 @@ final class ExchangeViewController: UIViewController {
   
   // MARK: - Actions
   private func showCurrencyPicker() {
-    let pickerVC = CurrencyPickerViewController()
+    let current = viewModel.state.isSwapped
+    ? viewModel.state.sourceCurrency
+    : viewModel.state.targetCurrency
+    
+    let pickerVC = CurrencyPickerViewController(selectedCurrency: current)
+    
+    pickerVC.onCurrencySelected = { [weak self] currency in
+      self?.viewModel.selectCurrency(currency)
+    }
+    
     if let sheet = pickerVC.sheetPresentationController {
       sheet.detents = [.medium()]
       sheet.prefersGrabberVisible = true
@@ -164,6 +182,10 @@ final class ExchangeViewController: UIViewController {
     }
     
     present(pickerVC, animated: true)
+  }
+  
+  @objc private func swapTapped() {
+    viewModel.swap()
   }
 }
 
