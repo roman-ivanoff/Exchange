@@ -53,6 +53,22 @@ final class ExchangeViewController: UIViewController {
     return button
   }()
   
+  private lazy var spinner: UIActivityIndicatorView = {
+    let spinner = UIActivityIndicatorView(style: .medium)
+    spinner.hidesWhenStopped = true
+    return spinner
+  }()
+  
+  private lazy var errorLabel: UILabel = {
+    let label = UILabel()
+    label.font = .messinaSans(14)
+    label.textColor = .systemOrange
+    label.textAlignment = .center
+    label.numberOfLines = 0
+    label.isHidden = true
+    return label
+  }()
+  
   // MARK: - Init
   init(viewModel: ExchangeViewModel) {
     self.viewModel = viewModel
@@ -87,7 +103,7 @@ final class ExchangeViewController: UIViewController {
     cardStack.spacing = Layout.cardSpacing
     cardStack.translatesAutoresizingMaskIntoConstraints = false
     
-    let mainStack = UIStackView(arrangedSubviews: [headerStack, cardStack])
+    let mainStack = UIStackView(arrangedSubviews: [headerStack, spinner, errorLabel, cardStack])
     mainStack.axis = .vertical
     mainStack.spacing = Layout.sectionSpacing
     mainStack.alignment = .center
@@ -147,6 +163,19 @@ final class ExchangeViewController: UIViewController {
   }
   
   private func updateUI(_ state: ExchangeViewState) {
+    if state.isLoading {
+      spinner.startAnimating()
+    } else {
+      spinner.stopAnimating()
+    }
+    
+    if let error = state.errorMessage {
+      errorLabel.text = error
+      errorLabel.isHidden = false
+    } else {
+      errorLabel.isHidden = true
+    }
+    
     rateLabel.text = state.rateText
     
     topCard.setSelectable(state.isSwapped)

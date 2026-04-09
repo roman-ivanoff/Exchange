@@ -67,6 +67,7 @@ final class CurrencyCardView: UIView {
     self.isSelectable = isSelectable
     super.init(frame: .zero)
     setupUI()
+    amountTextField.delegate = self
   }
   
   required init?(coder: NSCoder) {
@@ -134,5 +135,17 @@ final class CurrencyCardView: UIView {
       amountTextField.text = "$\(text)"
     }
     onAmountChanged?(text)
+  }
+}
+
+
+extension CurrencyCardView: UITextFieldDelegate {
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    let currentText = textField.text ?? ""
+    let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+    
+    let cleaned = newText.replacingOccurrences(of: "$", with: "")
+    
+    return cleaned.count <= 15
   }
 }

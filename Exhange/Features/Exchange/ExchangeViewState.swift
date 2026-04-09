@@ -12,4 +12,6 @@ struct ExchangeViewState {
   let rateText: String
   let isSwapped: Bool
   let activeField: ActiveField?
+  let isLoading: Bool
+  let errorMessage: String?
 }
