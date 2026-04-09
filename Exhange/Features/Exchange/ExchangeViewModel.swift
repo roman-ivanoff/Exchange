@@ -43,7 +43,9 @@ final class ExchangeViewModel {
       targetAmount: "",
       rateText: "",
       isSwapped: false,
-      activeField: nil
+      activeField: nil,
+      isLoading: true,
+      errorMessage: nil
     )
   }
   
@@ -59,7 +61,19 @@ final class ExchangeViewModel {
         }
       } catch {
         await MainActor.run {
-          onError?("Failed to load rates")
+          activeField = nil
+          state = ExchangeViewState(
+            sourceCurrency: sourceCurrency,
+            targetCurrency: targetCurrency,
+            sourceAmount: "",
+            targetAmount: "",
+            rateText: "",
+            isSwapped: isSwapped,
+            activeField: nil,
+            isLoading: false,
+            errorMessage: "Rates unavailable. Using offline data."
+          )
+          onStateChanged?(state)
         }
       }
     }
@@ -164,7 +178,9 @@ final class ExchangeViewModel {
       targetAmount: targetAmount > 0 ? CurrencyFormatter.format(targetAmount) : "",
       rateText: rateText,
       isSwapped: isSwapped,
-      activeField: activeField
+      activeField: activeField,
+      isLoading: false,
+      errorMessage: nil
     )
     
     onStateChanged?(state)

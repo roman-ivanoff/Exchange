@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		FD2122172F881B9900AFFBC8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FD80E7412F802B4F00B4AFD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FD80E7482F802B4F00B4AFD3;
+			remoteInfo = Exhange;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		FD2122132F881B9900AFFBC8 /* ExhangeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExhangeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD80E7492F802B4F00B4AFD3 /* Exhange.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Exhange.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -21,6 +32,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		FD2122142F881B9900AFFBC8 /* ExhangeTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ExhangeTests;
+			sourceTree = "<group>";
+		};
 		FD80E74B2F802B4F00B4AFD3 /* Exhange */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -32,6 +48,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		FD2122102F881B9900AFFBC8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD80E7462F802B4F00B4AFD3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -46,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				FD80E74B2F802B4F00B4AFD3 /* Exhange */,
+				FD2122142F881B9900AFFBC8 /* ExhangeTests */,
 				FD80E74A2F802B4F00B4AFD3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				FD80E7492F802B4F00B4AFD3 /* Exhange.app */,
+				FD2122132F881B9900AFFBC8 /* ExhangeTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +86,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		FD2122122F881B9900AFFBC8 /* ExhangeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FD21221B2F881B9900AFFBC8 /* Build configuration list for PBXNativeTarget "ExhangeTests" */;
+			buildPhases = (
+				FD21220F2F881B9900AFFBC8 /* Sources */,
+				FD2122102F881B9900AFFBC8 /* Frameworks */,
+				FD2122112F881B9900AFFBC8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FD2122182F881B9900AFFBC8 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FD2122142F881B9900AFFBC8 /* ExhangeTests */,
+			);
+			name = ExhangeTests;
+			packageProductDependencies = (
+			);
+			productName = ExhangeTests;
+			productReference = FD2122132F881B9900AFFBC8 /* ExhangeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		FD80E7482F802B4F00B4AFD3 /* Exhange */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = FD80E75C2F802B5100B4AFD3 /* Build configuration list for PBXNativeTarget "Exhange" */;
@@ -93,6 +141,10 @@
 				LastSwiftUpdateCheck = 2620;
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
+					FD2122122F881B9900AFFBC8 = {
+						CreatedOnToolsVersion = 26.2;
+						TestTargetID = FD80E7482F802B4F00B4AFD3;
+					};
 					FD80E7482F802B4F00B4AFD3 = {
 						CreatedOnToolsVersion = 26.2;
 					};
@@ -113,11 +165,19 @@
 			projectRoot = "";
 			targets = (
 				FD80E7482F802B4F00B4AFD3 /* Exhange */,
+				FD2122122F881B9900AFFBC8 /* ExhangeTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		FD2122112F881B9900AFFBC8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD80E7472F802B4F00B4AFD3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +188,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		FD21220F2F881B9900AFFBC8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FD80E7452F802B4F00B4AFD3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +204,65 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		FD2122182F881B9900AFFBC8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FD80E7482F802B4F00B4AFD3 /* Exhange */;
+			targetProxy = FD2122172F881B9900AFFBC8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		FD2122192F881B9900AFFBC8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RomanIvanov.ExhangeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Exhange.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Exhange";
+			};
+			name = Debug;
+		};
+		FD21221A2F881B9900AFFBC8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.RomanIvanov.ExhangeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Exhange.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Exhange";
+			};
+			name = Release;
+		};
 		FD80E75D2F802B5100B4AFD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -330,6 +455,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		FD21221B2F881B9900AFFBC8 /* Build configuration list for PBXNativeTarget "ExhangeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FD2122192F881B9900AFFBC8 /* Debug */,
+				FD21221A2F881B9900AFFBC8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FD80E7442F802B4F00B4AFD3 /* Build configuration list for PBXProject "Exhange" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
